@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Voting System</title>
+</head>
+<body>
+  <h1>Voting System</h1>
+
+  <h3>Current Results</h3>
+  <pre id="results">Loading...</pre>
+
+  <h3>Vote</h3>
+  <button onclick="vote('A')">Vote A</button>
+  <button onclick="vote('B')">Vote B</button>
+  <button onclick="vote('C')">Vote C</button>
+
+  <h3>Admin</h3>
+  <button onclick="resetVotes()">Reset All</button>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    async function loadResults() {
+      const res = await fetch(`${API_BASE}/results`);
+      const data = await res.json();
+      document.getElementById("results").innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function vote(candidate) {
+      await fetch(`${API_BASE}/vote`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ candidate })
+      });
+      loadResults();
+    }
+
+    async function resetVotes() {
+      await fetch(`${API_BASE}/reset`, { method: "POST" });
+      loadResults();
+    }
+
+    loadResults();
+  </script>
+</body>
+</html>
