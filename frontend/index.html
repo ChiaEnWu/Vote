@@ -19,7 +19,7 @@
   <button onclick="resetVotes()">Reset All</button>
 
   <script>
-    const API_BASE = "http://127.0.0.1:8000";
+    const API_BASE = "https://vote-api.onrender.com";
 
     async function loadResults() {
       const res = await fetch(`${API_BASE}/results`);
